@@ -84,6 +84,7 @@ export const getFeedsApi = () =>
     .then((res) => checkResponse<TFeedsResponse>(res))
     .then((data) => {
       if (data?.success) return data;
+      console.log('All order', data);
       return Promise.reject(data);
     });
 
