@@ -4,14 +4,20 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { BurgerIngredientUI } from '@ui';
 import { TBurgerIngredientProps } from './type';
-import { useDispatch } from '../../services/store';
-import { addIngredient, addBun } from '../../services/slices/constructorSlice';
+import { useDispatch, useSelector } from '../../services/store';
+import {
+  addIngredient,
+  addBun,
+  selectIngredientsCountMap
+} from '../../services/slices/constructorSlice';
 import { TConstructorIngredient } from '@utils-types';
 
 export const BurgerIngredient: FC<TBurgerIngredientProps> = memo(
-  ({ ingredient, count }) => {
+  ({ ingredient }) => {
     const location = useLocation();
     const dispatch = useDispatch();
+    const countMap = useSelector(selectIngredientsCountMap);
+    const count = ingredient.type !== 'bun' ? countMap[ingredient._id] || 0 : 0;
 
     const handleAdd = () => {
       const ingredientWithUuid: TConstructorIngredient = {

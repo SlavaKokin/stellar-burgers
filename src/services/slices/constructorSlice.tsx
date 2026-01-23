@@ -69,3 +69,16 @@ export const selectConstructorIngredients = createSelector(
   selectConstructor,
   (constructorBurger) => constructorBurger.ingredients
 );
+
+export const selectIngredientsCountMap = createSelector(
+  selectConstructorIngredients,
+  (ingredients) => {
+    const countMap: Record<string, number> = {};
+    ingredients.forEach((ing) => {
+      if (ing.type !== 'bun') {
+        countMap[ing._id] = (countMap[ing._id] || 0) + 1;
+      }
+    });
+    return countMap;
+  }
+);
