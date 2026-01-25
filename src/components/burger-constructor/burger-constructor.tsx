@@ -14,12 +14,16 @@ import {
   createOrderIsLoadingSelect,
   createOrderSelect
 } from '../../services/slices/orderSlice';
+import { selectUser } from '../../services/slices/userSlice';
+import { useNavigate } from 'react-router-dom';
 
 export const BurgerConstructor: FC = () => {
   /** TODO: взять переменные constructorItems, orderRequest и orderModalData из стора */
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const bun = useSelector(selectConstructorBun);
   const ingredients = useSelector(selectConstructorIngredients);
+  const isUser = useSelector(selectUser);
   const constructorItems = {
     bun,
     ingredients: ingredients ?? []
@@ -38,6 +42,12 @@ export const BurgerConstructor: FC = () => {
 
   const onOrderClick = () => {
     if (!constructorItems.bun || orderRequest) return;
+
+    if (!isUser) {
+      console.log('Переход на /login');
+      navigate('/login');
+      return;
+    }
 
     const ingredientIds = [
       constructorItems.bun._id,
