@@ -75,7 +75,7 @@ export const selectIngredientsCountMap = createSelector(
   (constructor) => {
     const countMap: Record<string, number> = {};
     if (constructor.bun) {
-      countMap[constructor.bun._id] = 1; // или больше, если возможен повтор
+      countMap[constructor.bun._id] = 2;
     }
     constructor.ingredients.forEach((ing) => {
       countMap[ing._id] = (countMap[ing._id] || 0) + 1;
