@@ -17,7 +17,7 @@ export const BurgerIngredient: FC<TBurgerIngredientProps> = memo(
     const location = useLocation();
     const dispatch = useDispatch();
     const countMap = useSelector(selectIngredientsCountMap);
-    const count = ingredient.type !== 'bun' ? countMap[ingredient._id] : 0;
+    const count = countMap[ingredient._id] || 0;
 
     const handleAdd = () => {
       const ingredientWithUuid: TConstructorIngredient = {

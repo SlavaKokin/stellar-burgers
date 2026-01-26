@@ -71,13 +71,14 @@ export const selectConstructorIngredients = createSelector(
 );
 
 export const selectIngredientsCountMap = createSelector(
-  selectConstructorIngredients,
-  (ingredients) => {
+  selectConstructor,
+  (constructor) => {
     const countMap: Record<string, number> = {};
-    ingredients.forEach((ing) => {
-      if (ing.type !== 'bun') {
-        countMap[ing._id] = (countMap[ing._id] || 0) + 1;
-      }
+    if (constructor.bun) {
+      countMap[constructor.bun._id] = 1; // или больше, если возможен повтор
+    }
+    constructor.ingredients.forEach((ing) => {
+      countMap[ing._id] = (countMap[ing._id] || 0) + 1;
     });
     return countMap;
   }
