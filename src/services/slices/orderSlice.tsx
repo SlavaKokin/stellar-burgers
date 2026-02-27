@@ -72,7 +72,6 @@ export const orderSlice = createSlice({
       })
       .addCase(createOrder.fulfilled, (state, action) => {
         state.createOrder = action.payload;
-        console.log('createOrder', action.payload);
         state.createOrderIsLoading = false;
       })
       .addCase(createOrder.rejected, (state, action) => {

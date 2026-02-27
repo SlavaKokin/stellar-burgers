@@ -125,6 +125,7 @@ export const userSlice = createSlice({
       .addCase(loginUser.fulfilled, (state, action) => {
         state.user = action.payload;
         state.isLoading = false;
+        state.userAuthChecked = true;
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.error = action.error.message ?? 'Ошибка авторизации пользователя';
@@ -139,6 +140,7 @@ export const userSlice = createSlice({
       .addCase(registerUser.fulfilled, (state, action) => {
         state.user = action.payload;
         state.isLoading = false;
+        state.userAuthChecked = true;
       })
       .addCase(registerUser.rejected, (state, action) => {
         state.error = action.error.message ?? 'Ошибка регистрации пользователя';
@@ -158,6 +160,8 @@ export const userSlice = createSlice({
         state.error = action.error.message ?? 'Ошибка обновления пользователя';
         state.isLoading = false;
       })
+
+      // logoutUser
       .addCase(logoutUser.pending, (state) => {
         state.isLoading = true;
         state.error = null;
