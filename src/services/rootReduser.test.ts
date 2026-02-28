@@ -27,4 +27,31 @@ describe('Тестируем rootReducer', () => {
       constructorSlice.getInitialState()
     );
   });
+  // проверка целого rootReducer
+  it('rootReducer должен возвращать корректное начальное состояние', () => {
+    const initAction = { type: '@@INIT' };
+    const state = rootReducer(undefined, initAction);
+
+    expect(state).toEqual({
+      [userSlice.name]: userSlice.getInitialState(),
+      [feedSlice.name]: feedSlice.getInitialState(),
+      [ingredientsSlice.name]: ingredientsSlice.getInitialState(),
+      [orderSlice.name]: orderSlice.getInitialState(),
+      [constructorSlice.name]: constructorSlice.getInitialState()
+    });
+  });
+
+  // проверка, что редьюсер не мутирует состояние при неизвестном экшене
+  it('rootReducer должен возвращать то же состояние при неизвестном экшене', () => {
+    const prevState = {
+      [userSlice.name]: userSlice.getInitialState(),
+      [feedSlice.name]: feedSlice.getInitialState(),
+      [ingredientsSlice.name]: ingredientsSlice.getInitialState(),
+      [orderSlice.name]: orderSlice.getInitialState(),
+      [constructorSlice.name]: constructorSlice.getInitialState()
+    };
+    const unknownAction = { type: 'UNKNOWN_ACTION' };
+    const newState = rootReducer(prevState, unknownAction);
+    expect(newState).toEqual(prevState);
+  });
 });

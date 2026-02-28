@@ -73,27 +73,26 @@ describe('Тестируем constructorSlice', () => {
   test('удаляет ингредиент по id', () => {
     store.dispatch(addIngredient({ ...ingredient1, id: 'bun-id' }));
     store.dispatch(addIngredient({ ...ingredient3, id: 'sauce-id' }));
-    // удаляем ingredient по id 'bun-id'
     store.dispatch({
       type: 'constructorBurger/removeIngredient',
       payload: { id: 'bun-id' }
     });
     const state = store.getState().constructorBurger;
     expect(state.ingredients).toHaveLength(1);
-    expect(state.ingredients[0]._id).toBe('643d69a5c3f7b9001cfa0942');
+    expect(state.ingredients[0]).toEqual(ingredient3);
   });
 
   test('изменяет порядок ингредиентов', () => {
     store.dispatch(addIngredient(ingredient1));
     store.dispatch(addIngredient(ingredient2));
     store.dispatch(addIngredient(ingredient3));
-    // меняем местами 0 и 2
     store.dispatch({
       type: 'constructorBurger/moveIngredient',
       payload: { from: 1, to: 2 }
     });
     const state = store.getState().constructorBurger;
-    expect(state.ingredients[1]._id).toBe('643d69a5c3f7b9001cfa0942');
-    expect(state.ingredients[2]._id).toBe('643d69a5c3f7b9001cfa0941');
+    expect(state.ingredients[0]).toEqual(ingredient1);
+    expect(state.ingredients[1]).toEqual(ingredient3);
+    expect(state.ingredients[2]).toEqual(ingredient2);
   });
 });

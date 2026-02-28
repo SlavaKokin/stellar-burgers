@@ -19,13 +19,20 @@ describe('Интеграционные тесты для страницы кон
         body: order
       }).as('createOrder');
     });
-    cy.visit('http://localhost:4000/');
+    cy.visit('/');
     cy.wait('@getIngredients');
     cy.window().then((win) => {
       // Установка токенов в localStorage
       win.localStorage.setItem('accessToken', 'mocked-access-token');
       win.localStorage.setItem('refreshToken', 'mocked-refresh-token');
     });
+  });
+
+  afterEach(() => {
+    // Очистка localStorage
+    cy.clearLocalStorage();
+    // Очистка cookies
+    cy.clearCookies();
   });
 
   it('Добавление ингредиентов в конструктор', () => {
@@ -75,6 +82,7 @@ describe('Интеграционные тесты для страницы кон
 
         // закрываем модальное окно на крестик
         cy.get('[data-cy="close-modal"]').click();
+        cy.get('[data-cy="modal"]').should('not.exist');
       });
 
     // проверяем закрытие по overlay
@@ -86,6 +94,7 @@ describe('Интеграционные тесты для страницы кон
       });
     cy.get('[data-cy="modal"]').should('be.visible');
     cy.get('[data-cy="close-overlay"]').click({ force: true });
+    cy.get('[data-cy="modal"]').should('not.exist');
   });
 
   it('Создание заказа', () => {
